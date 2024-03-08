@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import db from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
+
 
 const Details = (props) => {
   const { id } = useParams();
@@ -21,7 +22,6 @@ const Details = (props) => {
         console.error("Error getting document:", error);
       }
     };
-
     fetchData();
   }, [id]);
 
@@ -35,13 +35,13 @@ const Details = (props) => {
       </ImageTitle>
       <ContentMeta>
         <Controls>
-          <Player>
+          <PlayerDetail>
             <img src="/images/play-icon-black.png" alt="" />
             <span>Play</span>
-          </Player>
+          </PlayerDetail>
           <Trailer>
             <img src="/images/play-icon-white.png" alt="" />
-            <span>Trailer</span>
+            <span><Link to={`/detail/${id}/play`}>Trailer</Link></span>
           </Trailer>
           <AddList>
             <span />
@@ -119,7 +119,7 @@ const Controls = styled.div`
   min-height: 56px;
 `;
 
-const Player = styled.button`
+const PlayerDetail = styled.button`
   font-size: 15px;
   margin: 0px 22px 0px 0px;
   padding: 0px 24px;
@@ -154,7 +154,7 @@ const Player = styled.button`
   }
 `;
 //Trailer is inheriting the palyer below
-const Trailer = styled(Player)`
+const Trailer = styled(PlayerDetail)`
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgb(249, 249, 249);
   color: aliceblue;

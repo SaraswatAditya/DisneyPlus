@@ -11,6 +11,7 @@ import db from "../firebase";
 import { setMovies } from "../features/movie/movieSlice";
 import { selectUserName } from "../features/user/userSlice";
 import { getDocs, collection, QuerySnapshot } from "firebase/firestore";
+import Origin from "./Origin";
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -22,7 +23,8 @@ const Home = (props) => {
       let newDisneys = [];
       let originals = [];
       let trendings = [];
-  
+      let origins = [];
+
       querySnapshot.forEach((doc) => {
         const data = { id: doc.id, ...doc.data() };
         switch (data.type) {
@@ -38,30 +40,34 @@ const Home = (props) => {
           case "trending":
             trendings = [...trendings, { id: doc.id, ...doc.data() }];
             break;
+          case "origin":
+            origins = [...origins, { id: doc.id, ...doc.data() }];
+            break;
           default:
             break;
         }
       });
-  
+
       // console.log("Recommend:", recommends);
       // console.log("New Disney:", newDisneys);
       // console.log("Original:", originals);
       // console.log("Trending:", trendings);
-  
+
       dispatch(
         setMovies({
           recommend: recommends,
           newDisney: newDisneys,
           original: originals,
           trending: trendings,
+          origin: origins,
         })
       );
     };
-  
+
     fetchData().catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [userName]);  
+  }, [userName]);
 
   return (
     <Container>
@@ -69,6 +75,7 @@ const Home = (props) => {
       <Viewers />
       <Recommends />
       <NewDisney />
+      <Origin />
       <Originals />
       <Trending />
     </Container>

@@ -31,7 +31,7 @@ const Header = (props) => {
       try {
         const result = await signInWithPopup(auth, googleAuthProvider);
         setUser(result.user);
-        console.log(result.user);
+        // console.log(result.user);
       } catch (error) {
         alert(error.message);
       }
@@ -190,9 +190,9 @@ const NavMenu = styled.div`
       }
     }
   }
-  /* @media (max-width: 768px) {
+  @media (max-width: 768px) {
     display: none;
-  } */
+  }
 `;
 
 const Login = styled.a`
